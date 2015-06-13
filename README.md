@@ -1,5 +1,5 @@
-# HBProfiles
-This is were I will be making my profiles and setting them up.
+# HBPlugIn
+This is were I will be making my plugin and setting them up.
 
 Thanks for looking and useing it you like them.
 
