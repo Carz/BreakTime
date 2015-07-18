@@ -75,7 +75,7 @@
             // 
             this.BotTime.AutoSize = true;
             this.BotTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BotTime.Location = new System.Drawing.Point(30, 56);
+            this.BotTime.Location = new System.Drawing.Point(44, 56);
             this.BotTime.Name = "BotTime";
             this.BotTime.Size = new System.Drawing.Size(89, 16);
             this.BotTime.TabIndex = 2;
@@ -103,7 +103,7 @@
             // 
             this.BreakTime.AutoSize = true;
             this.BreakTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BreakTime.Location = new System.Drawing.Point(37, 125);
+            this.BreakTime.Location = new System.Drawing.Point(44, 125);
             this.BreakTime.Name = "BreakTime";
             this.BreakTime.Size = new System.Drawing.Size(82, 16);
             this.BreakTime.TabIndex = 5;

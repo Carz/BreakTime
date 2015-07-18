@@ -54,6 +54,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GreyMagic">
       <HintPath>..\..\..\..\Desktop\Honorbuddy 2.5.13335.778\GreyMagic.dll</HintPath>

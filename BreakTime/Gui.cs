@@ -33,9 +33,7 @@ namespace BreakTime
                 case mode.defaultMode:
                     SelectMode.SelectedIndex = 0;
                     break;
-                default:
-                    SelectMode.SelectedIndex = 0;
-                    break;
+                
             }
             NumericMinBotTime.Value = (int)PlugSettings.Instance.minBetweenTime;
             NumericMaxBotTime.Value = (int)PlugSettings.Instance.maxBetweenTime;

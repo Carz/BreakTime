@@ -8,6 +8,7 @@
 /// .001-.005  Code clean up
 /// .006  Attempt to get save buttoppn to close ( No luck )
 /// .007  Attempt to get save buttoppn to closex2 ( Suscessful)
+/// .008  Code Clean up
 /// </Changelog>
 using System;
 using System.Threading;
@@ -45,7 +46,7 @@ namespace BreakTime
         public override string Name { get { return "BreakTime"; } }
         public override string Author { get { return "Carz"; } }
         public override bool WantButton { get { return true; } }
-        public override Version Version { get { return new Version(0, 0, 0, 7); } }                     //Aphla Testing
+        public override Version Version { get { return new Version(0, 0, 0, 8); } }                     //Aphla Testing
         public override string ButtonText { get { return "Settings"; } }
 
 
@@ -104,13 +105,7 @@ namespace BreakTime
                         breakTaker();
                     }
                     break;
-                //As usual. Takes break everywhere!
-                default:
-                    if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime))
-                    {
-                        breakTaker();
-                    }
-                    break;
+               
             }
             if ((logTimer != -1) && (((DateTime.Now - bottingStartTime).TotalMinutes) >= nextLog))
                 nextLogOutput();
