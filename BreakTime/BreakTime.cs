@@ -79,6 +79,12 @@ namespace BreakTime
             }
             switch(usedMode)
             {
+                case mode.dungeon:
+                    if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !Dungeon.IsInsideDungeon)
+                    {
+                        breakTaker();
+                    }
+                    break;
                 case mode.bgMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !Battlegrounds.IsInsideBattleground)
                     {
