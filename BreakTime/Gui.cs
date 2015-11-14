@@ -49,7 +49,7 @@ namespace BreakTime
             PlugSettings.Instance.Load();
             switch (SelectMode.SelectedIndex)
             {
-                case :
+                case 3:
                     PlugSettings.Instance.usedMode = mode.dungeon;
                     break;
                 case 4:
