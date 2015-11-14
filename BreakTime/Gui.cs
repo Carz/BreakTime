@@ -21,8 +21,11 @@ namespace BreakTime
             PlugSettings.Instance.Load();
             switch(PlugSettings.Instance.usedMode)
             {
-                case mode.bgMode:
+                case mode.dungeon:
                     SelectMode.SelectedIndex = 3;
+                    break;
+                case mode.bgMode:
+                    SelectMode.SelectedIndex = 4;
                     break;
                 case mode.petBattleMode:
                     SelectMode.SelectedIndex = 2;
@@ -46,7 +49,10 @@ namespace BreakTime
             PlugSettings.Instance.Load();
             switch (SelectMode.SelectedIndex)
             {
-                case 3:
+                case :
+                    PlugSettings.Instance.usedMode = mode.dungeon;
+                    break;
+                case 4:
                     PlugSettings.Instance.usedMode = mode.bgMode;
                     break;
                 case 2:

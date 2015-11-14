@@ -54,6 +54,7 @@
             "Default",
             "Questing",
             "PetBattle",
+            "Dungeon",
             "Battleground"});
             this.SelectMode.Location = new System.Drawing.Point(22, 32);
             this.SelectMode.Name = "SelectMode";
