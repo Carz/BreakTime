@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<PlugSettings>
-  <usedMode>defaultMode</usedMode>
-  <minBreakTime>4</minBreakTime>
-  <maxBreakTime>12</maxBreakTime>
-  <minBetweenTime>45</minBetweenTime>
-  <maxBetweenTime>90</maxBetweenTime>
-</PlugSettings>
