@@ -1,6 +1,6 @@
 ﻿/*------------------------------------------------------------------------------------------------------------------------------------
  *      Plugin by:           Carz
- *      Version:            .007 Aphpla testing
+ *      Version:            .013 Alpha testing
  *      Note :              This is a plugin For HonorBuddy.
  *      
  * -----------------------------------------------------------------------------------------------------------------------------------*/
@@ -12,7 +12,8 @@
 /// .009  Change Thread.sleep to awit with help from Echo
 /// .010  Add Some Styx
 /// .011  Code Clean up with help from Echo
-///	.012  Test Build for Aphla 
+/// .012  Test Build for Alpha 
+/// .013 Changed await commoncoroutines.stopmoving back to WoWMovement.MoveStop(); ask its wasnt stoping the player 
 /// </Changelog>
 using Buddy.Coroutines;
 using System;
@@ -57,7 +58,7 @@ namespace BreakTime
         public override string Name { get { return "BreakTime"; } }
         public override string Author { get { return "Carz"; } }
         public override bool WantButton { get { return true; } }
-        public override Version Version { get { return new Version(0, 0, 0, 8); } }                     //Aphla Testing
+        public override Version Version { get { return new Version(0, 0, 0, 13); } }                     //Alpha Testing
         public override string ButtonText { get { return "Settings"; } }
 
 
@@ -139,18 +140,18 @@ namespace BreakTime
         }
 
      public async Task<bool> breakTaker()
-		{
-   			await CommonCoroutines.StopMoving();
-   			isBreaking = true;
-   			Log("Break Starting!");
-    		realBreakTime = (int)Math.Round(ranNumWithDecimal(minBreakTime, maxBreakTime), 2);
-    		Log(string.Format($"Taking break for {realBreakTime.ToString()} minutes. Will resume around {DateTime.Now.AddMinutes(realBreakTime).ToShortTimeString()}."));
-    		await Coroutine.Sleep(TimeSpan.FromMinutes(realBreakTime));
-   			Log("Break is over. Now what was I doing? I remember!");
-   			waitTime = 0;
-    		isBreaking = false;
-   				 return true;
-		}
+        {
+            WoWMovement.MoveStop();
+            isBreaking = true;
+            Log("Break Starting!");
+            realBreakTime = (int)Math.Round(ranNumWithDecimal(minBreakTime, maxBreakTime), 2);
+            Log(string.Format($"Taking break for {realBreakTime.ToString()} minutes. Will resume around {DateTime.Now.AddMinutes(realBreakTime).ToShortTimeString()}."));
+            await Coroutine.Sleep(TimeSpan.FromMinutes(realBreakTime));
+            Log("Break is over. Now what was I doing? I remember!");
+            waitTime = 0;
+            isBreaking = false;
+                 return true;
+        }
         public bool inPetCombat()
         {
             List<string> cnt = Lua.GetReturnValues("dummy,reason=C_PetBattles.IsTrapAvailable() return dummy,reason");
