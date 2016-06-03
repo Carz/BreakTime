@@ -1,6 +1,6 @@
 ﻿/*------------------------------------------------------------------------------------------------------------------------------------
  *      Plugin by:           Carz
- *      Version:            .013 Alpha testing
+ *      Version:            .03 Aphpla testing
  *      Note :              This is a plugin For HonorBuddy.
  *      
  * -----------------------------------------------------------------------------------------------------------------------------------*/
@@ -12,8 +12,10 @@
 /// .009  Change Thread.sleep to awit with help from Echo
 /// .010  Add Some Styx
 /// .011  Code Clean up with help from Echo
-/// .012  Test Build for Alpha 
+/// .012  Test Build for Aphla 
 /// .013 Changed await commoncoroutines.stopmoving back to WoWMovement.MoveStop(); ask its wasnt stoping the player 
+/// .014-.030 Had to move wowmovement.movestop() to its own void to see if it works.
+/// .030- .1 Had to go back to thread.sleep not what I wanted to do but to achive what this plugin is for its needed.
 /// </Changelog>
 using Buddy.Coroutines;
 using System;
@@ -22,10 +24,14 @@ using System.Threading.Tasks;
 using Styx.TreeSharp;
 using Styx;
 using Styx.Plugins;
+using Styx.Helpers;
 using Styx.Common;
 using Styx.CommonBot;
+using CommonBehaviors.Actions;
 using Styx.WoWInternals;
+using Styx.WoWInternals.DBC;
 using Styx.WoWInternals.WoWObjects;
+using Styx.WoWInternals.World;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -58,7 +64,6 @@ namespace BreakTime
         public override string Name { get { return "BreakTime"; } }
         public override string Author { get { return "Carz"; } }
         public override bool WantButton { get { return true; } }
-        public override Version Version { get { return new Version(0, 0, 0, 13); } }                     //Alpha Testing
         public override string ButtonText { get { return "Settings"; } }
 
 
@@ -94,12 +99,15 @@ namespace BreakTime
                 case mode.bgMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !Battlegrounds.IsInsideBattleground)
                     {
+                        //stoping();
                         breakTaker();
+
                     }
                     break;
                 case mode.petBattleMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !inPetCombat())
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -107,6 +115,7 @@ namespace BreakTime
                 case mode.questMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && Me.CurrentTarget.QuestGiverStatus == QuestGiverStatus.TurnIn && Me.CurrentTarget.WithinInteractRange)
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -114,6 +123,7 @@ namespace BreakTime
                 case mode.defaultMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime))
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -139,18 +149,30 @@ namespace BreakTime
             Logging.Write("[BreakTime]: " + text, args);
         }
 
-     public async Task<bool> breakTaker()
+        //public void stoping()
+           // { 
+           //     if (Me.IsMoving)
+            //
+           // Coroutines.StopMoving();
+            //WoWMovement.MoveStop();
+           // return;
+            //
+            //breakTaker();
+            //}
+
+     public void breakTaker()
         {
-            WoWMovement.MoveStop();
+            
+            CommonCoroutines.StopMoving();
             isBreaking = true;
             Log("Break Starting!");
             realBreakTime = (int)Math.Round(ranNumWithDecimal(minBreakTime, maxBreakTime), 2);
             Log(string.Format($"Taking break for {realBreakTime.ToString()} minutes. Will resume around {DateTime.Now.AddMinutes(realBreakTime).ToShortTimeString()}."));
-            await Coroutine.Sleep(TimeSpan.FromMinutes(realBreakTime));
+            Thread.Sleep(TimeSpan.FromMinutes(realBreakTime));
             Log("Break is over. Now what was I doing? I remember!");
             waitTime = 0;
             isBreaking = false;
-                 return true;
+                 
         }
         public bool inPetCombat()
         {
