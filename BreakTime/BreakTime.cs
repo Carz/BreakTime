@@ -1,6 +1,6 @@
 ﻿/*------------------------------------------------------------------------------------------------------------------------------------
  *      Plugin by:           Carz
- *      Version:            .007 Aphpla testing
+ *      Version:            .03 Aphpla testing
  *      Note :              This is a plugin For HonorBuddy.
  *      
  * -----------------------------------------------------------------------------------------------------------------------------------*/
@@ -9,16 +9,34 @@
 /// .006  Attempt to get save buttoppn to close ( No luck )
 /// .007  Attempt to get save buttoppn to closex2 ( Suscessful)
 /// .008  Code Clean up
+/// .009  Change Thread.sleep to awit with help from Echo
+/// .010  Add Some Styx
+/// .011  Code Clean up with help from Echo
+/// .012  Test Build for Aphla 
+/// .013 Changed await commoncoroutines.stopmoving back to WoWMovement.MoveStop(); ask its wasnt stoping the player 
+/// .014-.030 Had to move wowmovement.movestop() to its own void to see if it works.
+/// .030- .1 Had to go back to thread.sleep not what I wanted to do but to achive what this plugin is for its needed.
 /// </Changelog>
+using Buddy.Coroutines;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Styx.TreeSharp;
 using Styx;
 using Styx.Plugins;
+using Styx.Helpers;
 using Styx.Common;
 using Styx.CommonBot;
+using CommonBehaviors.Actions;
 using Styx.WoWInternals;
+using Styx.WoWInternals.DBC;
 using Styx.WoWInternals.WoWObjects;
+using Styx.WoWInternals.World;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using Styx.CommonBot.Coroutines;
+using static System.Math;
 
 
 namespace BreakTime
@@ -46,7 +64,7 @@ namespace BreakTime
         public override string Name { get { return "BreakTime"; } }
         public override string Author { get { return "Carz"; } }
         public override bool WantButton { get { return true; } }
-        public override Version Version { get { return new Version(0, 0, 0, 8); } }                     //Aphla Testing
+        public override Version Version { get { return new Version(0, 0, 1, 0); } }                     //Aphla Testing
         public override string ButtonText { get { return "Settings"; } }
 
 
@@ -79,21 +97,18 @@ namespace BreakTime
             }
             switch(usedMode)
             {
-                case mode.dungeon:
-                    if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !Dungeon.IsInsideDungeon)
-                    {
-                        breakTaker();
-                    }
-                    break;
                 case mode.bgMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !Battlegrounds.IsInsideBattleground)
                     {
+                        //stoping();
                         breakTaker();
+
                     }
                     break;
                 case mode.petBattleMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && !inPetCombat())
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -101,6 +116,7 @@ namespace BreakTime
                 case mode.questMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime) && Me.CurrentTarget.QuestGiverStatus == QuestGiverStatus.TurnIn && Me.CurrentTarget.WithinInteractRange)
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -108,6 +124,7 @@ namespace BreakTime
                 case mode.defaultMode:
                     if (!isBreaking && ((DateTime.Now - bottingStartTime).TotalMinutes >= waitTime))
                     {
+                        //stoping();
                         breakTaker();
                     }
                     break;
@@ -132,17 +149,31 @@ namespace BreakTime
         {
             Logging.Write("[BreakTime]: " + text, args);
         }
-        public void breakTaker()
+
+        //public void stoping()
+           // { 
+           //     if (Me.IsMoving)
+            //
+           // Coroutines.StopMoving();
+            //WoWMovement.MoveStop();
+           // return;
+            //
+            //breakTaker();
+            //}
+
+     public void breakTaker()
         {
-            WoWMovement.MoveStop();
+            
+            CommonCoroutines.StopMoving();
             isBreaking = true;
             Log("Break Starting!");
             realBreakTime = (int)Math.Round(ranNumWithDecimal(minBreakTime, maxBreakTime), 2);
-            Log(string.Format("Taking break for {0} minutes. Will resume around {1}.", realBreakTime.ToString(), DateTime.Now.AddMinutes(realBreakTime).ToShortTimeString()));
+            Log(string.Format($"Taking break for {realBreakTime.ToString()} minutes. Will resume around {DateTime.Now.AddMinutes(realBreakTime).ToShortTimeString()}."));
             Thread.Sleep(TimeSpan.FromMinutes(realBreakTime));
             Log("Break is over. Now what was I doing? I remember!");
             waitTime = 0;
             isBreaking = false;
+                 
         }
         public bool inPetCombat()
         {
